@@ -1,5 +1,5 @@
 from dataclasses import field
-from auth.models import User
+from directorio.models import User
 from django.contrib.auth import authenticate, password_validation
 
 from rest_framework import serializers
