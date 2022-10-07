@@ -12,11 +12,11 @@ from django.urls import reverse
 from django_rest_passwordreset.signals import reset_password_token_created
 
 phone_validator = RegexValidator(
-    r'^\+[1-9]\d{1,14}$', _('phone number in the format '))
+    r'^\+[1-9]\d{1,14}$', _('phone number in the format'))
 
 # Create your models here.
 ROL_CHOICES = (
-    ('administador', 'administador'),
+    ('administrador', 'administrador'),
     ('secretario', 'secretario'),
     ('planificador', 'planificador'),
 )
@@ -31,7 +31,7 @@ class User(AbstractUser):
     rol = models.CharField(_("rol"), max_length=25, choices=ROL_CHOICES)
     email = models.EmailField(_('email address'), unique=True)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'adress', 'phone']
+    REQUIRED_FIELDS = ['username', 'rol']
 
 
 @receiver(reset_password_token_created)
