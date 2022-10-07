@@ -2,12 +2,20 @@ from rest_framework.permissions import BasePermission
 
 from directorio.models import User
 
-# class es_proveedor(BasePermission):
 
-#     def has_permission(self, request, view):
+class EsAdministrador(BasePermission):
 
-#         try:
-#             Proveedor.objects.get(usuario = request.user)
-#         except Proveedor.DoesNotExist:
-#             return False
-#         return True
+    def has_permission(self, request, view):
+        return User.objects.get(usuario=request.user).rol == 'administador'
+
+
+class EsSecretario(BasePermission):
+
+    def has_permission(self, request, view):
+        return User.objects.get(usuario=request.user).rol == 'secretario'
+
+
+class EsPlanificador(BasePermission):
+
+    def has_permission(self, request, view):
+        return User.objects.get(usuario=request.user).rol == 'planificador'
