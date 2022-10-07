@@ -9,7 +9,7 @@ class Libro(models.Model):
     cantidad_unidades = models.IntegerField(_("cantidad de unidades"))
     fecha = models.DateField(_("date"), auto_now=True)
     usuario = models.ForeignKey("directorio.User", verbose_name=_(
-        "usuario"), on_delete=models.SET_NULL, blank=True)
+        "usuario"), on_delete=models.SET_NULL, blank=True, null=True)
     asignatura = models.CharField(_("subject"), max_length=80)
     anno_escolar = models.PositiveSmallIntegerField(_("scholar year"))
 
@@ -29,7 +29,7 @@ class Modulo(models.Model):
     cantidad_unidades = models.IntegerField(_("cantidad de unidades"))
     fecha = models.DateField(_("date"), auto_now=True)
     usuario = models.ForeignKey("directorio.User", verbose_name=_(
-        "usuario"), on_delete=models.SET_NULL, blank=True)
+        "usuario"), on_delete=models.SET_NULL, blank=True, null=True)
     anno_escolar = models.PositiveSmallIntegerField(_("scholar year"))
 
     class Meta:
