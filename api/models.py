@@ -34,7 +34,7 @@ class Material(models.Model):
         verbose_name_plural = _("materials")
 
     def __str__(self):
-        return self.name
+        return self.nombre
 
     def get_absolute_url(self):
         return reverse("material_detail", kwargs={"pk": self.pk})
@@ -42,7 +42,8 @@ class Material(models.Model):
 
 class Modulo(models.Model):
 
-    materiales = models.ManyToManyField("api.Material", verbose_name=_(""))
+    materiales = models.ManyToManyField(
+        "api.Material", verbose_name=_("materiales"))
     fecha = models.DateField(_("date"), auto_now=True)
     usuario = models.ForeignKey("directorio.User", verbose_name=_(
         "usuario"), on_delete=models.SET_NULL, blank=True, null=True)

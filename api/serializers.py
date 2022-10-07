@@ -1,21 +1,37 @@
 from rest_framework import serializers
 
-from api.models import Libro, Modulo
+from api.models import Libro, Material, Modulo
+from directorio.serializers import UserModelSerializer
 
 
 class LibroSerializer(serializers.ModelSerializer):
+    # usuario = UserModelSerializer()
 
     class Meta:
         model = Libro
         fields = '__all__'
         # exclude = ['fecha']
         read_only_fields = ['fecha']
+        depth = 1
+
+
+class MaterialSerializer(serializers.ModelSerializer):
+    # usuario = UserModelSerializer()
+
+    class Meta:
+        model = Material
+        fields = '__all__'
+        # exclude = ['fecha']
+        read_only_fields = ['fecha']
+        depth = 1
+
 
 class ModuloSerializer(serializers.ModelSerializer):
+    usuario = UserModelSerializer()
 
     class Meta:
         model = Modulo
         fields = '__all__'
         # exclude = ['fecha']
         read_only_fields = ['fecha']
-
+        depth = 1
