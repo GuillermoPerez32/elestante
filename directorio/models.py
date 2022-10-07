@@ -15,6 +15,11 @@ phone_validator = RegexValidator(
     r'^\+[1-9]\d{1,14}$', _('phone number in the format '))
 
 # Create your models here.
+ROL_CHOICES = (
+    ('administador', 'administador'),
+    ('secretario', 'secretario'),
+    ('planificador', 'planificador'),
+)
 
 
 class User(AbstractUser):
@@ -23,6 +28,7 @@ class User(AbstractUser):
     phone = models.CharField(
         max_length=25,
         validators=[phone_validator])
+    rol = models.CharField(_("rol"), max_length=25, choices = ROL_CHOICES)
     email = models.EmailField(_('email address'), unique=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'adress', 'phone']
