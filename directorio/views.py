@@ -2,6 +2,7 @@ from multiprocessing import context
 from urllib import request
 from rest_framework import status
 from rest_framework.response import Response
+from directorio.permissions import EsAdministrador
 from directorio.serializers import ChangePasswordSerializer, UpdateUserSerializer, UserSignupSerializer
 
 # Django REST Framework
@@ -15,6 +16,7 @@ from directorio.serializers import UserLoginSerializer, UserModelSerializer
 # Models
 from directorio.models import User
 
+
 class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.RetrieveModelMixin):
 
     queryset = User.objects.filter(is_active=True)
@@ -24,11 +26,12 @@ class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.Retri
     def retrieve(self, request, *args, **kwargs):
         serializer = self.get_serializer(request.user)
         return Response(serializer.data)
-    
+
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
         instance = request.user
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
@@ -45,17 +48,20 @@ class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.Retri
     def partial_update(self, request, *args, **kwargs):
         kwargs['partial'] = True
         return self.update(request, *args, **kwargs)
-    
+
+
 class SignupView(generics.GenericAPIView):
 
     serializer_class = UserSignupSerializer
+    permission_classes = [EsAdministrador]
 
     def post(self, request):
         serializer = UserSignupSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         return Response(status=status.HTTP_201_CREATED)
-    
+
+
 class LoginView(generics.GenericAPIView):
 
     serializer_class = UserLoginSerializer
@@ -69,14 +75,16 @@ class LoginView(generics.GenericAPIView):
             'access_token': token
         }
         return Response(data, status=status.HTTP_201_CREATED)
-    
+
+
 class ChangePasswordView(generics.GenericAPIView):
 
     serializer_class = ChangePasswordSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        serializer = ChangePasswordSerializer(data=request.data, instance=request.user, context= {'request': request})
+        serializer = ChangePasswordSerializer(
+            data=request.data, instance=request.user, context={'request': request})
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(status=status.HTTP_201_CREATED)

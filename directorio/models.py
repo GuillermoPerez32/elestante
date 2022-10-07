@@ -24,11 +24,11 @@ ROL_CHOICES = (
 
 class User(AbstractUser):
 
-    address = models.CharField(max_length=255)
-    phone = models.CharField(
-        max_length=25,
-        validators=[phone_validator])
-    rol = models.CharField(_("rol"), max_length=25, choices = ROL_CHOICES)
+    # address = models.CharField(max_length=255)
+    # phone = models.CharField(
+    #     max_length=25,
+    #     validators=[phone_validator])
+    rol = models.CharField(_("rol"), max_length=25, choices=ROL_CHOICES)
     email = models.EmailField(_('email address'), unique=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'adress', 'phone']

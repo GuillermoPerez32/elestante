@@ -33,12 +33,10 @@ class UserSignupSerializer(serializers.ModelSerializer):
 
         fields = (
             'password',
-            'adress',
             'passwd_conf',
             'first_name',
             'last_name',
             'email',
-            'phone',
             'username'
         )
 
