@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from django.contrib.
+from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 
 
@@ -10,6 +10,8 @@ class Libro(models.Model):
     fecha = models.DateField(_("fecha"), auto_now=True)
     usuario = models.ForeignKey("directorio.User", verbose_name=_(
         "usuario"), on_delete=models.SET_NULL, blank=True)
+    asignatura = models.CharField(_("subject"), max_length=80)
+    anno_escolar = models.PositiveSmallIntegerField(_("scholar year"))
 
     class Meta:
         verbose_name = _("libro")
@@ -20,3 +22,18 @@ class Libro(models.Model):
 
     def get_absolute_url(self):
         return reverse("libro_detail", kwargs={"pk": self.pk})
+
+class Modulo(models.Model):
+
+    
+
+    class Meta:
+        verbose_name = _("Modulo")
+        verbose_name_plural = _("Modulos")
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("Modulo_detail", kwargs={"pk": self.pk})
+
