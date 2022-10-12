@@ -5,33 +5,28 @@ from directorio.serializers import UserModelSerializer
 
 
 class LibroSerializer(serializers.ModelSerializer):
-    # usuario = UserModelSerializer()
+    usuarios = UserModelSerializer(many=True, read_only=True)
 
     class Meta:
         model = Libro
         fields = '__all__'
         # exclude = ['fecha']
         read_only_fields = ['fecha']
-        depth = 1
 
 
 class MaterialSerializer(serializers.ModelSerializer):
-    # usuario = UserModelSerializer()
 
     class Meta:
         model = Material
         fields = '__all__'
-        # exclude = ['fecha']
-        read_only_fields = ['fecha']
-        depth = 1
 
 
 class ModuloSerializer(serializers.ModelSerializer):
     usuario = UserModelSerializer()
+    materiales = MaterialSerializer(many=True)
 
     class Meta:
         model = Modulo
         fields = '__all__'
         # exclude = ['fecha']
         read_only_fields = ['fecha']
-        depth = 1
