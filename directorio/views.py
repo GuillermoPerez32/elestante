@@ -2,14 +2,14 @@ from multiprocessing import context
 from urllib import request
 from rest_framework import status
 from rest_framework.response import Response
-from directorio.permissions import EsAdministrador
-from directorio.serializers import ChangePasswordSerializer, UpdateUserSerializer, UserSignupSerializer
+from directorio.permissions import EsAdministrador, EsPlanificador, EsSecretario, ReadOnly
+from directorio.serializers import ChangePasswordSerializer, UpdateUserSerializer, UserFromAdminModelSerializer, UserSignupSerializer
 
 # Django REST Framework
 from rest_framework import status, viewsets, generics, mixins
 from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 # Serializers
 from directorio.serializers import UserLoginSerializer, UserModelSerializer
 
@@ -17,11 +17,18 @@ from directorio.serializers import UserLoginSerializer, UserModelSerializer
 from directorio.models import User
 
 
+class UserFromAdminViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserFromAdminModelSerializer
+    permission_classes = [EsAdministrador | (
+        (EsSecretario | EsPlanificador) & ReadOnly)
+    ]
+
+
 class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.RetrieveModelMixin):
 
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserModelSerializer
-    permission_classes = [IsAuthenticated]
 
     def retrieve(self, request, *args, **kwargs):
         serializer = self.get_serializer(request.user)

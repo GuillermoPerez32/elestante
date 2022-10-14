@@ -23,6 +23,14 @@ class UserModelSerializer(serializers.ModelSerializer):
         )
 
 
+class UserFromAdminModelSerializer(UserModelSerializer):
+
+    class Meta:
+
+        model = User
+        fields = '__all__'
+
+
 class UserSignupSerializer(serializers.ModelSerializer):
 
     passwd_conf = serializers.CharField()

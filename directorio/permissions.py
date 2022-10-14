@@ -1,4 +1,4 @@
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 from rest_framework.request import Request
 
 from directorio.models import User
@@ -19,6 +19,14 @@ class EsSecretario(BasePermission):
         if request.user.is_authenticated:
             return request.user.rol == 'secretario'
         return False
+
+
+class ReadOnly(BasePermission):
+
+    def has_permission(self, request, view):
+        return bool(
+            request.method in SAFE_METHODS
+        )
 
 
 class EsPlanificador(BasePermission):
