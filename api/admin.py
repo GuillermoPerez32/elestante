@@ -1,3 +1,6 @@
 from django.contrib import admin
-from django_restful_admin import admin as rest_admin
+from .models import Libro,Material,Modulo
 # Register your models here.
+admin.site.register(Material)
+admin.site.register(Modulo)
+admin.site.register(Libro)

@@ -54,7 +54,7 @@ class Modulo(models.Model):
         verbose_name_plural = _("Modulos")
 
     def __str__(self):
-        return self.pk
+        return str(self.pk)
 
     def get_absolute_url(self):
         return reverse("Modulo_detail", kwargs={"pk": self.pk})

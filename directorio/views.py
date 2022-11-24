@@ -25,7 +25,7 @@ class UserFromAdminViewSet(viewsets.ModelViewSet):
     ]
 
 
-class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.RetrieveModelMixin):
+class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.DestroyModelMixin):
 
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserModelSerializer
@@ -58,9 +58,9 @@ class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.Retri
 
 
 class SignupView(generics.GenericAPIView):
-
+    #TODO: add permissions
     serializer_class = UserSignupSerializer
-    permission_classes = [EsAdministrador]
+    # permission_classes = [EsAdministrador]
 
     def post(self, request):
         serializer = UserSignupSerializer(data=request.data)

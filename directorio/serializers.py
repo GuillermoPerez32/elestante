@@ -18,8 +18,8 @@ class UserModelSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'rol',
-            'email',
-            'libros'
+            # 'email',
+            # 'libros'
         )
 
 
@@ -44,7 +44,8 @@ class UserSignupSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'email',
-            'username'
+            'username',
+            'rol'
         )
 
     def validate(self, data):
