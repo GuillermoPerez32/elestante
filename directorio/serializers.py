@@ -18,9 +18,10 @@ class UserModelSerializer(serializers.ModelSerializer):
             'first_name',
             'last_name',
             'rol',
-            # 'email',
+            'email',
             # 'libros'
         )
+        read_only_fields = ['id']
 
 
 class UserFromAdminModelSerializer(UserModelSerializer):
