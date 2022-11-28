@@ -1,15 +1,13 @@
-from multiprocessing import context
-from urllib import request
+
 from rest_framework import status
 from rest_framework.response import Response
 from directorio.permissions import EsAdministrador, EsPlanificador, EsSecretario, ReadOnly
-from directorio.serializers import ChangePasswordSerializer, UpdateUserSerializer, UserFromAdminModelSerializer, UserSignupSerializer
+from directorio.serializers import ChangePasswordSerializer, UserFromAdminModelSerializer, UserSignupSerializer
 
 # Django REST Framework
 from rest_framework import status, viewsets, generics, mixins
-from rest_framework.decorators import action, permission_classes
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 # Serializers
 from directorio.serializers import UserLoginSerializer, UserModelSerializer
 
@@ -29,6 +27,7 @@ class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.Retri
 
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
+    permission_classes = [EsAdministrador | ReadOnly]
 
     def retrieve(self, request, *args, **kwargs):
         serializer = self.get_serializer(request.user)
@@ -36,9 +35,9 @@ class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.Retri
 
 
 class SignupView(generics.GenericAPIView):
-    #TODO: add permissions
+    # TODO: add permissions
     serializer_class = UserSignupSerializer
-    # permission_classes = [EsAdministrador]
+    permission_classes = [EsAdministrador]
 
     def post(self, request):
         serializer = UserSignupSerializer(data=request.data)

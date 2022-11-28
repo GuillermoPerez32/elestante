@@ -20,6 +20,7 @@ ROL_CHOICES = (
     ('secretario', 'secretario'),
     ('planificador', 'planificador'),
     ('estudiante', 'estudiante'),
+    ('profesor', 'profesor'),
 )
 
 

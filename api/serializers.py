@@ -10,8 +10,6 @@ class LibroSerializer(serializers.ModelSerializer):
     class Meta:
         model = Libro
         fields = '__all__'
-        # exclude = ['fecha']
-        read_only_fields = ['fecha']
 
 
 class MaterialSerializer(serializers.ModelSerializer):
