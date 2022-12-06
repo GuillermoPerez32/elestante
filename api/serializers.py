@@ -20,7 +20,7 @@ class MaterialSerializer(serializers.ModelSerializer):
 
 
 class ModuloSerializer(serializers.ModelSerializer):
-    usuario = UserModelSerializer()
+    usuarios = UserModelSerializer(many=True, read_only=True)
     materiales = MaterialSerializer(many=True)
 
     class Meta:

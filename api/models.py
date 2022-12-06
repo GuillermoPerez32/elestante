@@ -9,7 +9,7 @@ class Libro(models.Model):
     cantidad_unidades = models.IntegerField(_("cantidad de unidades"))
     # fecha = models.DateField(_("date"), auto_now=True)
     usuarios = models.ManyToManyField("directorio.User", verbose_name=_(
-        "usuarios"), blank=True, null=True)
+        "usuarios"), blank=True)
     asignatura = models.CharField(_("subject"), max_length=80, unique=True)
     anno_escolar = models.PositiveSmallIntegerField(_("scholar year"))
 
@@ -31,7 +31,7 @@ class Material(models.Model):
 
     class Meta:
         verbose_name = _("material")
-        verbose_name_plural = _("materials")
+        verbose_name_plural = _("materiales")
 
     def __str__(self):
         return self.nombre
@@ -46,8 +46,8 @@ class Modulo(models.Model):
         "api.Material", verbose_name=_("materiales"))
     fecha = models.DateField(_("date"), auto_now=True)
     usuarios = models.ManyToManyField("directorio.User", verbose_name=_(
-        "usuarios"), blank=True, null=True)
-    anno_escolar = models.PositiveSmallIntegerField(_("scholar year"))
+        "usuarios"), blank=True)
+    categoria = models.CharField(_("category"), max_length=70, unique=True)
 
     class Meta:
         verbose_name = _("Modulo")
