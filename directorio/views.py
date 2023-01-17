@@ -18,16 +18,22 @@ from directorio.models import User
 class UserFromAdminViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserFromAdminModelSerializer
-    # permission_classes = [EsAdministrador | (
-    #     (EsSecretario | EsPlanificador) & ReadOnly)
-    # ]
+    filterset_fields = {
+        'username':['icontains']
+    }
+    permission_classes = [EsAdministrador | (
+        (EsSecretario | EsPlanificador) & ReadOnly)
+    ]
 
 
 class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.DestroyModelMixin):
 
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
-    # permission_classes = [EsAdministrador | ReadOnly]
+    filterset_fields = {
+        'username':['icontains']
+    }
+    permission_classes = [EsAdministrador | ReadOnly]
 
     def retrieve(self, request, *args, **kwargs):
         serializer = self.get_serializer(request.user)
@@ -37,7 +43,7 @@ class UserViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin, mixins.Retri
 class SignupView(generics.GenericAPIView):
     # TODO: add permissions
     serializer_class = UserSignupSerializer
-    # permission_classes = [EsAdministrador]
+    permission_classes = [EsAdministrador]
 
     def post(self, request):
         serializer = UserSignupSerializer(data=request.data)
@@ -64,7 +70,7 @@ class LoginView(generics.GenericAPIView):
 class ChangePasswordView(generics.GenericAPIView):
 
     serializer_class = ChangePasswordSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         serializer = ChangePasswordSerializer(
