@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from rest_framework.response import Response
 from rest_framework.request import Request
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, views
 from rest_framework.decorators import action
 
 from api.models import Libro, Modulo
@@ -19,16 +19,17 @@ class ModuloViewSet(viewsets.ModelViewSet):
     """
     serializer_class = ModuloSerializer
     queryset = Modulo.objects.all()
-    # permission_classes = [EsAdministrador | EsSecretario]
+    filterset_fields = ['categoria']
+    permission_classes = [EsAdministrador | EsSecretario]
+
+    def create(self, request: Request, *args, **kwargs):
+        print(*request.data)
+        return super().create(request, *args, **kwargs)
 
     @action(detail=True, methods=['post'])
     def asignar(self, request: Request, pk=None):
-        print(request.data)
-        print('hola')
         modulo = self.get_object()
-        print(modulo)
-        user = User.objects.get(username=request.data['username'])
-        print(user)
+        user = User.objects.get(username=request.data.get('username'))
         modulo.usuarios.add(user)
         return Response(status=status.HTTP_200_OK)
         # try:
@@ -36,11 +37,23 @@ class ModuloViewSet(viewsets.ModelViewSet):
         #     print(Exception)
         #     return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
 class LibroViewSet(viewsets.ModelViewSet):
     """
     A viewset for viewing and editing Libro instances.
     """
+
+    @action(detail=True, methods=['post'])
+    def asignar(self, request: Request, pk=None):
+        libro = self.get_object()
+        user = User.objects.get(username=request.data.get('username'))
+        libro.usuarios.add(user)
+        return Response(status=status.HTTP_200_OK)
+        # try:
+        # except Exception:
+        #     print(Exception)
+        #     return Response(status=status.HTTP_400_BAD_REQUEST)
+
     serializer_class = LibroSerializer
     queryset = Libro.objects.all()
+    filterset_fields = ['asignatura']
     permission_classes = [EsAdministrador | EsPlanificador]

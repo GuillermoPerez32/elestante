@@ -23,6 +23,18 @@ class ModuloSerializer(serializers.ModelSerializer):
     usuarios = UserModelSerializer(many=True, read_only=True)
     materiales = MaterialSerializer(many=True)
 
+    def create(self, validated_data):
+        print(validated_data)
+        modulo = Modulo.objects.create(
+            categoria=validated_data['categoria'],
+        )
+
+        for material in validated_data['materiales']:
+            modulo.materiales.create(**material)
+
+        modulo.save()
+        return modulo
+
     class Meta:
         model = Modulo
         fields = '__all__'
