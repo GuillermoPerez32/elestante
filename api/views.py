@@ -57,7 +57,11 @@ class LibroViewSet(viewsets.ModelViewSet):
 
     serializer_class = LibroSerializer
     queryset = Libro.objects.all()
+<<<<<<< HEAD
     filterset_fields = {
         'asignatura':['icontains']
     }
+=======
+    filterset_fields = ['asignatura']
+>>>>>>> e06a071c917c46cecfe827b81b957d016172f3ea
     permission_classes = [EsAdministrador | EsPlanificador]
